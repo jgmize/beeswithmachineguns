@@ -29,11 +29,10 @@ easy_install beeswithmachineguns
 h2. Installation for developers (w/ virtualenv + virtualenvwrapper)
 
 <pre>
-git clone git://github.com/newsapps/beeswithmachineguns.git
+git clone git://github.com/ckolos/beeswithmachineguns.git
 cd beeswithmachineguns
-mkvirtualenv --no-site-packages bees
-easy_install pip
-pip install -r requirements.txt
+virtualenv .
+./bin/pip install -r requirements.txt
 </pre>
 
 h2. Configuring EC2 credentials
@@ -45,12 +44,15 @@ h2. Usage
 A typical bees session looks something like this:
 
 <pre>
-bees up -s 4 -g public -k frakkingtoasters
+bees up -s 4 -g bees -k frakkingtoasters
 bees attack -n 10000 -c 250 -u http://www.ournewwebbyhotness.com/
+ - OR -
+bees attack --use-siege -w 30s -c 5 -u 'https://www.mysite.com POST {"thisis":"json"}'
+bees attack --use-siege -w 30s -c 5 -u 'https://www.mysite.com POST formencoded=true&var=2'
 bees down
 </pre>
 
-This spins up 4 servers in security group 'public' using the EC2 keypair 'frakkingtoasters', whose private key is expected to reside at ~/.ssh/frakkingtoasters.pem.
+This spins up 4 servers in security group 'bees' using the EC2 keypair 'frakkingtoasters', whose private key is expected to reside at ~/.ssh/frakkingtoasters.pem.
 
 *Note*: the default EC2 security group is called 'default' and by default it locks out SSH access. I recommend creating a 'public' security group for use with the bees and explicitly opening port 22 on that group.
 
