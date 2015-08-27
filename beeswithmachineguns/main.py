@@ -70,14 +70,14 @@ commands:
                         action='store', dest='zone', type='string', default='us-east-1d',
                         help="The availability zone to start the instances in (default: us-east-1d).")
     up_group.add_option('-i', '--instance',  metavar="INSTANCE",  nargs=1,
-                        action='store', dest='instance', type='string', default='ami-b08b6cd8',
-                        help="The instance-id to use for each server from (default: ami-b08b6cd8).")
+                        action='store', dest='instance', type='string', default='ami-33dd7e58',
+                        help="The instance-id to use for each server from (default: ami-33dd7e58).")
     up_group.add_option('-t', '--instance_type',  metavar="INSTANCE_TYPE",  nargs=1,
-                        action='store', dest='instance_type', type='string', default='t1.micro',
-                        help="The ec2 instance type to use for each server (default: t1.micro).")
+                        action='store', dest='instance_type', type='string', default='t2.micro',
+                        help="The ec2 instance type to use for each server (default: t2.micro).")
     up_group.add_option('-l', '--login',  metavar="LOGIN",  nargs=1,
-                        action='store', dest='login', type='string', default='ubuntu',
-                        help="The ssh username name to use to connect to the new servers (default: ubuntu).")
+                        action='store', dest='login', type='string', default='ec-user',
+                        help="The ssh username name to use to connect to the new servers (default: ec2-user).")
 
     parser.add_option_group(up_group)
 
