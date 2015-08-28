@@ -108,8 +108,7 @@ def up(count, group, zone, image_id, instance_type, username, key_name, siege_ke
 set -e -x
 
 echo 'starting'
-yum -y -q -e0 --disablerepo=mozilla* update
-yum -y install gcc siege httpd-tools
+yum -y install --disablerepo=mozilla* gcc siege httpd-tools
 
 tuned-adm profile network-throughput
 
