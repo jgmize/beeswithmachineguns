@@ -76,7 +76,7 @@ commands:
                         action='store', dest='instance_type', type='string', default='t2.micro',
                         help="The ec2 instance type to use for each server (default: t2.micro).")
     up_group.add_option('-l', '--login',  metavar="LOGIN",  nargs=1,
-                        action='store', dest='login', type='string', default='ec-user',
+                        action='store', dest='login', type='string', default='ec2-user',
                         help="The ssh username name to use to connect to the new servers (default: ec2-user).")
 
     parser.add_option_group(up_group)
@@ -135,7 +135,8 @@ commands:
     if options.verbose:
         level=logging.DEBUG
     else:
-        level=logging.WARNING
+        level=logging.INFO
+
     logging.basicConfig(level=level)
 
     if command == 'up':
