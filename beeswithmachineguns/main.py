@@ -135,7 +135,7 @@ commands:
     if options.verbose:
         level=logging.DEBUG
     else:
-        level=logging.INFO
+        level=logging.WARN
 
     logging.basicConfig(level=level)
 
