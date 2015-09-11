@@ -135,10 +135,11 @@ commands:
     if options.verbose:
         level=logging.DEBUG
     else:
-        level=logging.WARN
+        level=logging.INFO
 
     logging.basicConfig(level=level)
-
+#    loggingobject = logging.getLogger()
+#    print "Logging at", loggingobject.getEffectiveLevel()
     if command == 'up':
         if not options.key:
             parser.error('To spin up new instances you need to specify a key-pair name with -k')
