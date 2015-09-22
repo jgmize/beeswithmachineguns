@@ -12,21 +12,7 @@ h2. Dependencies
 * boto
 * paramiko
 
-h2. Installation for users
-
-Preferred:
-
-<pre>
-pip install beeswithmachineguns
-</pre>
-
-or, if you must:
-
-<pre>
-easy_install beeswithmachineguns
-</pre>
-
-h2. Installation for developers (w/ virtualenv + virtualenvwrapper)
+h2. Installation (w/ virtualenv + virtualenvwrapper)
 
 <pre>
 git clone git://github.com/ckolos/beeswithmachineguns.git
@@ -41,7 +27,7 @@ Bees uses boto to communicate with EC2 and thus supports all the same methods of
 
 h2. Usage
 
-Starting Bees:
+h3.Starting Bees:
 
 <pre>
 bees up \
@@ -52,12 +38,12 @@ bees up \
   -i <ami-id to use for the bees> \
   -t <instance type to use for the bees; t2.micro is the default> \
   -l <user login to use; ec2-user is the fedora/centos default> 
-</pre>
 
 Example:
 ./bees up -k mycoolsshkey --group=bees -s 2 -t m3.2xlarge
+</pre>
 
-What are my bees doing?
+h3.What are my bees doing?
 
 <pre>
 ./bees report
@@ -66,7 +52,7 @@ INFO:root:Bee i-beefdead: running @ 54.0.0.2
 </pre>
 
 
-Attacking with the bees:
+h3.Attacking with the bees:
 
 <pre>
 ./bees attack \
@@ -77,7 +63,6 @@ Attacking with the bees:
   --use-siege <use siege for testing> - OR -
     --use-ab <use apache bench for testing>
   -w <run the test for (n) seconds(s)/minutes(m)/hours(h)>
-</pre>
 
 Example:
 ./bees attack \
@@ -87,12 +72,14 @@ Example:
   -c 64 \
   -u "https://mycoolapp.here POST <(echo -en 'my posted data')"
 
+</pre>
 - OR -
+<pre>
 bees attack -n 10000 -c 250 -u http://www.ournewwebbyhotness.com/
 bees attack --use-siege -w 30s -c 5 -u 'https://www.mysite.com POST {"thisis":"json"}'
 bees attack --use-siege -w 30s -c 5 -u 'https://www.mysite.com POST formencoded=true&var=2'
-
-Shutting down the bees:
+</pre>
+h3.Shutting down the bees:
 <pre>
 bees down
 </pre>
