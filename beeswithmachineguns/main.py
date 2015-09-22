@@ -59,7 +59,6 @@ commands:
     up_group.add_option('-k', '--key',  metavar="KEY",  nargs=1,
                         action='store', dest='key', type='string',
                         help="The ssh key pair name to use to connect to the new servers.")
-
     up_group.add_option('-s', '--servers', metavar="SERVERS", nargs=1,
                         action='store', dest='servers', type='int', default=5,
                         help="The number of servers to start (default: 5).")
@@ -67,11 +66,11 @@ commands:
                         action='store', dest='group', type='string', default='default',
                         help="The security group to run the instances under (default: default).")
     up_group.add_option('-z', '--zone',  metavar="ZONE",  nargs=1,
-                        action='store', dest='zone', type='string', default='us-east-1d',
-                        help="The availability zone to start the instances in (default: us-east-1d).")
+                        action='store', dest='zone', type='string'
+                        help="The availability zone to start the instances in.")
     up_group.add_option('-i', '--instance',  metavar="INSTANCE",  nargs=1,
-                        action='store', dest='instance', type='string', default='ami-33dd7e58',
-                        help="The instance-id to use for each server from (default: ami-33dd7e58).")
+                        action='store', dest='instance', type='string',
+                        help="The instance-id to use for each server from ")
     up_group.add_option('-t', '--instance_type',  metavar="INSTANCE_TYPE",  nargs=1,
                         action='store', dest='instance_type', type='string', default='t2.micro',
                         help="The ec2 instance type to use for each server (default: t2.micro).")
