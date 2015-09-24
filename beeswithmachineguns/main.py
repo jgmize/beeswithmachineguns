@@ -66,7 +66,7 @@ commands:
                         action='store', dest='group', type='string', default='default',
                         help="The security group to run the instances under (default: default).")
     up_group.add_option('-z', '--zone',  metavar="ZONE",  nargs=1,
-                        action='store', dest='zone', type='string'
+                        action='store', dest='zone', type='string',
                         help="The availability zone to start the instances in.")
     up_group.add_option('-i', '--instance',  metavar="INSTANCE",  nargs=1,
                         action='store', dest='instance', type='string',
@@ -77,7 +77,12 @@ commands:
     up_group.add_option('-l', '--login',  metavar="LOGIN",  nargs=1,
                         action='store', dest='login', type='string', default='ec2-user',
                         help="The ssh username name to use to connect to the new servers (default: ec2-user).")
-
+    up_group.add_option('--subnet_id', metavar='SUBNET_ID', nargs=1,
+                        action='store', dest='subnet_id', type='string',
+                        help='Subnet Id for use within a VPC')
+    up_group.add_option('--security_group_id', metavar='SECURITY_GROUP_ID', nargs=1,
+                        action='store', dest='security_group_id', type='string',
+                        help='must be used instead of the -g or --group option within a VPC, together with --subnet_id')
     parser.add_option_group(up_group)
 
     attack_group = OptionGroup(parser, "attack",
@@ -146,7 +151,9 @@ commands:
         #if options.group == 'default':
         #    print 'New bees will use the "default" EC2 security group. Please note that port 22 (SSH) is not normally open on this group. You will need to use to the EC2 tools to open it before you will be able to attack.'
 
-        bees.up(options.servers, options.group, options.zone, options.instance, options.instance_type, options.login, options.key, options.keepalive)
+        bees.up(options.servers, options.group, options.zone, options.instance,
+                options.instance_type, options.login, options.key,
+                options.keepalive, options.subnet_id, options.security_group_id)
     elif command == 'attack':
 
         url, url_file = None, None

@@ -78,7 +78,7 @@ def _get_pem_path(key):
 
 # Methods
 
-def up(count, group, zone, image_id, instance_type, username, key_name, siege_keepalive):
+def up(count, group, zone, image_id, instance_type, username, key_name, siege_keepalive, subnet_id, security_group_id):
     """
     Startup the load testing server.
     """
@@ -137,21 +137,30 @@ echo "connection = keep-alive" > /home/%(username)s/.siegerc"""
 touch /home/%(username)s/ready"""
 
     user_data = user_data % {'username': username}
-
-    reservation = ec2_connection.run_instances(
-        image_id=image_id,
-        min_count=count,
-        max_count=count,
-        key_name=key_name,
-        security_groups=[group],
-        instance_type=instance_type,
-        user_data=user_data,
-        placement=zone)
-
+    if subnet_id:
+        reservation = ec2_connection.run_instances(
+            image_id=image_id,
+            min_count=count,
+            max_count=count,
+            key_name=key_name,
+            instance_type=instance_type,
+            user_data=user_data,
+            placement=zone,
+            subnet_id=subnet_id,
+            security_group_ids=[security_group_id])
+    else:
+        reservation = ec2_connection.run_instances(
+            image_id=image_id,
+            min_count=count,
+            max_count=count,
+            key_name=key_name,
+            security_groups=[group],
+            instance_type=instance_type,
+            user_data=user_data,
+            placement=zone)
     logging.info('Waiting for bees to load their machine guns...')
 
     instance_ids = []
-
     for instance in reservation.instances:
         while instance.state != 'running':
             logging.debug('.')
@@ -159,6 +168,11 @@ touch /home/%(username)s/ready"""
             instance.update()
 
         instance_ids.append(instance.id)
+        if subnet_id:
+            address = ec2_connection.allocate_address()
+            logging.info('associating %s with %s' % (address.public_ip, instance.id))
+            ec2_connection.associate_address(instance.id, address.public_ip)
+
 
         logging.info('Bee %s is ready for the attack.' % instance.id)
 
@@ -354,7 +368,7 @@ def attack(url, url_file, n, c, keepalive, output_type, engine, time):
     logging.debug( 'Each of %i bees will fire %s rounds, %s at a time.' % (instance_count, requests_per_instance, connections_per_instance))
 
     # default s3 bucket when we use it for url files
-    bucket_name = 'haw-bees'
+    bucket_name = 'beeees'
 
     # if there's a url file, it's time to:
     # 1) verify it's already present on the worker instances
